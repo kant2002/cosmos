@@ -5,8 +5,7 @@ using System.Text;
 using Mono.Cecil.Cil;
 
 namespace Indy.IL2CPU.IL {
-	[OpCode(Code.Pop)]
-	public abstract class Pop: Op
-	{
+	[OpCode(Code.Ret)]
+	public abstract class Return: Op {
 	}
 }
