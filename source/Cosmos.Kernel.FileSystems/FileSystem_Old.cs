@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 
 namespace Cosmos.FileSystem {
-	public abstract class FileSystem 
+	public abstract class FileSystem_Old 
     {
         public virtual FSDirectory GetDirectory(string path)
         {
