@@ -36,64 +36,46 @@ namespace Cosmos.VS.Package {
             FillProperties(); 
         }
 
-		private void ClearSubPage()
-		{
-			foreach (Control control in this.panelSubPage.Controls)
-			{
-				this.panelSubPage.Controls.Remove(control);
+		private void ClearSubPage() {
+			foreach (Control control in panelSubPage.Controls) {
+				panelSubPage.Controls.Remove(control);
 				control.Dispose();
 			}
 		}
 
-		private void SetSubPropertyPage(TargetHost target)
-		{
-			Boolean subpageChanged = false;
-
-			switch (target)
-			{
+		private void SetSubPropertyPage(TargetHost target) {
+			switch (target) {
+                case TargetHost.VMWareWorkstation:
 				case TargetHost.QEMU:
-					if ((this.pageSubPage is DebugPageSub) == false)
-					{
-						subpageChanged = true;
-						this.pageSubPage = new DebugPageSub();
+					if ((pageSubPage is DebugPageSub) == false) {
+						pageSubPage = new DebugPageSub();
 					}
 					break;
 				default:
-					subpageChanged = true;
-					this.pageSubPage = null;
+					pageSubPage = null;
 					break;
 			}
 
-			if( subpageChanged == true)
-			{
-				this.panelSubPage.SuspendLayout();
+			panelSubPage.SuspendLayout();
 
-				this.ClearSubPage();
-				if (this.pageSubPage != null)
-				{
-					this.pageSubPage.SetOwner(this);
-					this.panelSubPage.Controls.Add(pageSubPage);
+			ClearSubPage();
+            panelSubPage.Visible = pageSubPage != null;
+            if (panelSubPage.Visible) {
+				pageSubPage.SetOwner(this);
+				panelSubPage.Controls.Add(pageSubPage);
 
-					this.pageSubPage.Location = new Point(0, 0);
-					this.pageSubPage.Anchor = AnchorStyles.Top;
+				pageSubPage.Location = new Point(0, 0);
+				pageSubPage.Anchor = AnchorStyles.Top;
 
-					this.pageSubPage.Size = new Size(this.ClientSize.Width, this.pageSubPage.Size.Height);
-					this.pageSubPage.Anchor = this.pageSubPage.Anchor | AnchorStyles.Left | AnchorStyles.Right;
+				pageSubPage.Size = new Size(ClientSize.Width, pageSubPage.Size.Height);
+				pageSubPage.Anchor = pageSubPage.Anchor | AnchorStyles.Left | AnchorStyles.Right;
 
-					if (this.pageSubPage.Size.Height <= this.ClientSize.Height)
-					{
-						this.pageSubPage.Size = new Size(this.pageSubPage.Size.Width, this.ClientSize.Height);
-						this.pageSubPage.Anchor = this.pageSubPage.Anchor | AnchorStyles.Bottom;
-					}
-
-					this.panelSubPage.Visible = true;
-				} else {
-					this.panelSubPage.Visible = false;
+				if (pageSubPage.Size.Height <= ClientSize.Height) {
+					pageSubPage.Size = new Size(pageSubPage.Size.Width, ClientSize.Height);
+					pageSubPage.Anchor = pageSubPage.Anchor | AnchorStyles.Bottom;
 				}
-
-				this.panelSubPage.ResumeLayout();
 			}
-
+			panelSubPage.ResumeLayout();
 		}
 
 		protected override void FillProperties() {
